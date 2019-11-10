@@ -129,6 +129,7 @@ const INPUT_CONFIGURATION_TYPES = {
                 name: "editor",
                 values: ["proxy", "hidden", "json"],
                 type: "enum",
+                required: true
             },
             {
                 name: "patternKey",
@@ -158,6 +159,7 @@ const INPUT_CONFIGURATION_TYPES = {
                 name: "editor",
                 values: ["json", "requestListSources", "pseudoUrls", "keyValue", "stringList", "hidden"],
                 type: "enum",
+                required: true,
             },
             {
                 name: "placeholderKey",

@@ -32,10 +32,18 @@ class PropertyForm extends React.Component {
             rules: [{required: field.required, message: `Please input your ${field.name}!`}],
             initialValue: this.state[field.name]
         };
+        if (field.type === "type") {
+            field.type = this.state.type;
+        }
 
-        if(field.type === "boolean"){
+        if (field.type === "boolean") {
             config.valuePropName = "checked"
         }
+
+        if (field.type === "object" || field.type === "array") {
+            config.initialValue = JSON.stringify(this.state[field.name], null, 2)
+        }
+
 
         return (<Form.Item key={field.name} label={field.name}>
                 {getFieldDecorator(field.name, config)(
@@ -51,15 +59,17 @@ class PropertyForm extends React.Component {
             onChange: (event) => this.setPropertyValue(event),
             name: field.name,
         };
+        let inputComponent;
 
 
         switch (field.type) {
             case "string":
-                return <Input
+                inputComponent = <Input
                     {...commonProps}
                 />
+                break;
             case "integer":
-                return <InputNumber
+                inputComponent = <InputNumber
                     {...commonProps}
                     onChange={(value) => this.setPropertyValue({
                         key: field.name,
@@ -67,28 +77,40 @@ class PropertyForm extends React.Component {
                     })
                     }
                 />
+                break;
             case "enum":
-                return <Select {...commonProps} onChange={(value) => this.setPropertyValue({
+                inputComponent = <Select {...commonProps} onChange={(value) => this.setPropertyValue({
                     key: field.name,
                     value
                 })}>
                     {field.values.map(val => (<Select.Option value={val} key={val}>{val}</Select.Option>))}
                 </Select>;
-            case "type":
-                field.type = this.state.type;
-                return this._getInputField(field);
+                break;
             case "boolean":
-                return <Checkbox
+                inputComponent = <Checkbox
                     {...commonProps}
                     onChange={(event) => this.setPropertyValue({
                         key: field.name,
                         value: event.target.checked
                     })
                     }
+                />;
+                break;
+            case "object":
+                inputComponent = <Input.TextArea
+                    {...commonProps}
+                />;
+                break;
+            case "array":
+                inputComponent = <Input.TextArea
+                    {...commonProps}
                 />
+                break;
             default:
-                return <p>null</p>
-        };
+                inputComponent = <p>null</p>
+        }
+        ;
+        return inputComponent
     }
 
     getGeneralFields = () => {

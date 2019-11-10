@@ -25,6 +25,7 @@ const propertyModal = (props) => {
                         if (err) {
                             return;
                         }
+                        values.uniqueKey = props.property.uniqueKey;
 
                         props.handleSave(values);
                         form.resetFields();

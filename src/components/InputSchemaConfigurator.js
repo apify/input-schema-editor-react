@@ -1,7 +1,7 @@
 import React from 'react';
 import {Typography, Row, Col, Button} from "antd";
 import copy from 'clipboard-copy';
-import shortid from 'shortid';
+import {generate} from 'shortid';
 
 import Viewer from "./InputSchemaViewer"
 import SchemaImporter from "./SchemaImporter";
@@ -95,7 +95,7 @@ class InputSchemaConfigurator extends React.Component {
         const property = this._ensureValidStructure(prop);
         this.setState(prevState => {
             const updatedConfig = Object.assign({}, prevState.config);
-            const index = prevState.config.properties.findIndex(prop => prop.id === property.id);
+            const index = prevState.config.properties.findIndex(prop => prop.uniqueKey === property.uniqueKey);
 
             updatedConfig.properties[index] = Object.assign({}, prevState.config.properties[index], property);
             updatedConfig.required = this._getUpdatedRequired(prevState, property);
@@ -129,12 +129,17 @@ class InputSchemaConfigurator extends React.Component {
     }
 
     _ensureValidStructure = (property) => {
-        const getKey = (f) => f.name && f.name;
-        const keys = INPUT_CONFIGURATION_TYPES.general.fields.map(getKey).concat(INPUT_CONFIGURATION_TYPES[property.type].fields.map(getKey));
+        const fields = INPUT_CONFIGURATION_TYPES.general.fields.concat(INPUT_CONFIGURATION_TYPES[property.type].fields).concat([{name: "uniqueKey"}]);
         const filtered = {};
-        keys.forEach(key => {
-            const value = property[key];
-            if (property[key] || typeof property[key] === "boolean") {
+        fields.forEach(({type, name: key}) => {
+            let value = property[key];
+            const shouldParseJson = type === "object" || type === "array";
+
+            if (shouldParseJson && value){
+                value = JSON.parse(property[key])
+            }
+
+            if (value || typeof property[key] === "boolean") {
                 filtered[key] = value
             }
         });
@@ -153,7 +158,7 @@ class InputSchemaConfigurator extends React.Component {
             const newProperties = Object.entries(properties).map(([key, value]) => {
                 const property = Object.assign({}, value);
                 property.keyName = key;
-                property.id = shortid.generate();
+                property.uniqueKey = generate();
                 property.required = newConfig.required.includes(key);
                 return property
             });
@@ -165,7 +170,6 @@ class InputSchemaConfigurator extends React.Component {
     }
 
     handleImport(json) {
-        console.log(json);
         this.handleJsonChange(JSON.parse(json));
     }
 
@@ -187,7 +191,7 @@ class InputSchemaConfigurator extends React.Component {
             const propToEdit = Object.assign({}, prop);
             const key = propToEdit.keyName;
             delete propToEdit.keyName;
-            delete propToEdit.id;
+            delete propToEdit.uniqueKey;
             delete propToEdit.required;
 
             json.properties[key] = propToEdit
@@ -216,7 +220,7 @@ class InputSchemaConfigurator extends React.Component {
             "enum": ["us", "de", "fr"],
             "enumTitles": ["USA", "Germany", "France"],
             "keyName": "country",
-            "id": shortid.generate(),
+            "uniqueKey":generate(),
         }
     };
 
@@ -238,15 +242,14 @@ class InputSchemaConfigurator extends React.Component {
                         </Typography.Title>
                         <Row type="flex" gutter={[16, 16]}>
                             {config.properties.map((property, i) => {
-                                const id = property.id;
-                                delete property.id;
+                                const uniqueKey = property.uniqueKey;
                                 return (<Col span={12}>
                                         <PropertyCard
                                             property={property}
                                             propertyIndex={i}
                                             handleEdit={this.handleEdit}
                                             handleDelete={this.handleDelete}
-                                            key={id}
+                                            key={uniqueKey}
                                         />
                                     </Col>
                                 )
