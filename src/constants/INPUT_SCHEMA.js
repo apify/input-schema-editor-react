@@ -26,10 +26,6 @@ const INPUT_CONFIGURATION_TYPES = {
                 type: "type",
             },
             {
-                name: "prefill",
-                type: "type",
-            },
-            {
                 name: "sectionCaption",
                 type: "string",
             },
@@ -50,6 +46,10 @@ const INPUT_CONFIGURATION_TYPES = {
                 values: ["textfield", "json", "textarea", "javascript", "select", "hidden"],
                 required: true,
                 type: "enum",
+            },
+            {
+                name: "prefill",
+                type: "type",
             },
             {
                 name: "pattern",
@@ -83,6 +83,10 @@ const INPUT_CONFIGURATION_TYPES = {
                 name: "editor",
                 values: ["number", "hidden"],
                 type: "enum"
+            },
+            {
+                name: "prefill",
+                type: "type",
             },
             {
                 name:"maximum",
@@ -132,6 +136,10 @@ const INPUT_CONFIGURATION_TYPES = {
                 required: true
             },
             {
+                name: "prefill",
+                type: "type",
+            },
+            {
                 name: "patternKey",
                 type: "string",
             },
@@ -160,6 +168,10 @@ const INPUT_CONFIGURATION_TYPES = {
                 values: ["json", "requestListSources", "pseudoUrls", "keyValue", "stringList", "hidden"],
                 type: "enum",
                 required: true,
+            },
+            {
+                name: "prefill",
+                type: "type",
             },
             {
                 name: "placeholderKey",
