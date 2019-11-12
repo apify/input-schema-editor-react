@@ -47,7 +47,7 @@ const INPUT_CONFIGURATION_TYPES = {
         fields: [
             {
                 name: "editor",
-                values: ["json", "textfield", "textarea", "javascript", "select", "hidden"],
+                values: ["textfield", "json", "textarea", "javascript", "select", "hidden"],
                 required: true,
                 type: "enum",
             },
@@ -81,7 +81,7 @@ const INPUT_CONFIGURATION_TYPES = {
         fields:[
             {
                 name: "editor",
-                values: ["hidden", "number"],
+                values: ["number", "hidden"],
                 type: "enum"
             },
             {
@@ -127,7 +127,7 @@ const INPUT_CONFIGURATION_TYPES = {
         fields:[
             {
                 name: "editor",
-                values: ["proxy", "hidden", "json"],
+                values: ["json","proxy", "hidden"],
                 type: "enum",
                 required: true
             },

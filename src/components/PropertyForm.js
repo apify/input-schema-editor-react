@@ -2,6 +2,8 @@ import React from "react";
 import {Form, Input, InputNumber, Select, Checkbox} from 'antd';
 import INPUT_CONFIGURATION_TYPES from "../constants/INPUT_SCHEMA";
 
+import '../App.css';
+
 class PropertyForm extends React.Component {
     constructor(props) {
         super(props);
@@ -9,7 +11,6 @@ class PropertyForm extends React.Component {
         this.state = {
             ...props.property
         }
-
     }
 
     setPropertyValue(event) {
@@ -42,6 +43,15 @@ class PropertyForm extends React.Component {
 
         if (field.type === "object" || field.type === "array") {
             config.initialValue = JSON.stringify(this.state[field.name], null, 2)
+        }
+
+        if(field.type === "enum"){
+            config.getValueProps = (value)=>{
+                if(field.values.includes(value)){
+                    return {value};
+                }
+                return { value: field.values[0]}
+            }
         }
 
 
@@ -79,7 +89,9 @@ class PropertyForm extends React.Component {
                 />
                 break;
             case "enum":
-                inputComponent = <Select {...commonProps} onChange={(value) => this.setPropertyValue({
+                inputComponent = <Select
+                    {...commonProps}
+                    onChange={(value) => this.setPropertyValue({
                     key: field.name,
                     value
                 })}>

@@ -1,6 +1,8 @@
 import React from "react";
 import {Input, Form} from "antd";
 
+import '../App.css';
+
 const GENERAL_FIELDS = [
     {
         name: "JSON",

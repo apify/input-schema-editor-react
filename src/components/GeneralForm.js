@@ -1,6 +1,8 @@
 import React from "react";
 import {Input, Form, Typography} from "antd";
 
+import '../App.css';
+
 const GENERAL_FIELDS = [
     {
         name: "title",
@@ -8,7 +10,7 @@ const GENERAL_FIELDS = [
     },
     {
         name: "description",
-        "required": true,
+        "required": false,
     },
     {
         name: "schemaVersion",

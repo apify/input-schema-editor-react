@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Descriptions, Card, Typography} from 'antd';
-
+import '../App.css';
 
 const PropertyCard = (props) => {
     return (

@@ -12,6 +12,9 @@ import PropertyCard from "./PropertyCard";
 import PropertyModal from "./PropertyModal";
 import GeneralForm from "./GeneralForm";
 
+import '../App.css';
+
+
 class InputSchemaConfigurator extends React.Component {
     constructor(props) {
         super(props);
@@ -91,13 +94,12 @@ class InputSchemaConfigurator extends React.Component {
         })
     }
 
-    handleUpdate(prop) {
+    handleUpdate(prop, index) {
         const property = this._ensureValidStructure(prop);
         this.setState(prevState => {
             const updatedConfig = Object.assign({}, prevState.config);
-            const index = prevState.config.properties.findIndex(prop => prop.uniqueKey === property.uniqueKey);
 
-            updatedConfig.properties[index] = Object.assign({}, prevState.config.properties[index], property);
+            updatedConfig.properties[index] = Object.assign({}, updatedConfig.properties[index], property);
             updatedConfig.required = this._getUpdatedRequired(prevState, property);
 
             return {
@@ -220,7 +222,7 @@ class InputSchemaConfigurator extends React.Component {
             "enum": ["us", "de", "fr"],
             "enumTitles": ["USA", "Germany", "France"],
             "keyName": "country",
-            "uniqueKey":generate(),
+            "uniqueKey": generate(),
         }
     };
 
@@ -284,6 +286,7 @@ class InputSchemaConfigurator extends React.Component {
                     isRequired={config.required.find(r => r === modalProperty.keyName)}
                     closeModal={this.closeModal}
                     handleSave={isEdit ? this.handleUpdate : this.handleSave}
+                    propertyIndex={modal.propertyIndex}
                 />
 
             </div>

@@ -2,6 +2,8 @@ import React from "react";
 import { Typography, Button, Modal} from "antd";
 import SchemaImporterForm from "./SchemaImporterForm";
 
+import '../App.css';
+
 class SchemaImporter extends React.Component {
     constructor(props) {
         super(props);

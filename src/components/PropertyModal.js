@@ -2,6 +2,8 @@ import {Modal, Button} from "antd";
 import React from "react";
 import PropertyForm from "./PropertyForm";
 
+import '../App.css';
+
 const propertyModal = (props) => {
     let formRef;
     const {title} = props.property;
@@ -27,7 +29,7 @@ const propertyModal = (props) => {
                         }
                         values.uniqueKey = props.property.uniqueKey;
 
-                        props.handleSave(values);
+                        props.handleSave(values, props.propertyIndex);
                         form.resetFields();
                         props.closeModal()
                     });
