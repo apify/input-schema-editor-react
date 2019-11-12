@@ -137,7 +137,7 @@ class InputSchemaConfigurator extends React.Component {
             let value = property[key];
             const shouldParseJson = type === "object" || type === "array";
 
-            if (shouldParseJson && value){
+            if (shouldParseJson && value) {
                 value = JSON.parse(property[key])
             }
 
@@ -218,7 +218,6 @@ class InputSchemaConfigurator extends React.Component {
             "type": "string",
             "description": "Select your country",
             "editor": "select",
-            "default": "us",
             "enum": ["us", "de", "fr"],
             "enumTitles": ["USA", "Germany", "France"],
             "keyName": "country",
@@ -234,7 +233,7 @@ class InputSchemaConfigurator extends React.Component {
         return (
             <div>
                 <Row gutter={16} style={{padding: "16px"}}>
-                    <Col span={12}>
+                    <Col span={12} key={"config"}>
                         <Typography.Title>
                             Configure your input schema
                         </Typography.Title>
@@ -245,7 +244,7 @@ class InputSchemaConfigurator extends React.Component {
                         <Row type="flex" gutter={[16, 16]}>
                             {config.properties.map((property, i) => {
                                 const uniqueKey = property.uniqueKey;
-                                return (<Col span={12}>
+                                return (<Col span={12} key={property.uniqueKey}>
                                         <PropertyCard
                                             property={property}
                                             propertyIndex={i}
@@ -266,7 +265,7 @@ class InputSchemaConfigurator extends React.Component {
                         </Button>
                     </Col>
 
-                    <Col span={12}>
+                    <Col span={12} key={"viewer"}>
                         <Typography.Title>
                             Input schema json
                         </Typography.Title>

@@ -27,8 +27,9 @@ class PropertyForm extends React.Component {
         this.setState({[key]: value})
     }
 
-    _getField = (field) => {
+    _getField = (oldField, type) => {
         const {getFieldDecorator} = this.props.form;
+        const field = Object.assign({}, oldField);
         const config = {
             rules: [{required: field.required, message: `Please input your ${field.name}!`}],
             initialValue: this.state[field.name]
@@ -123,22 +124,14 @@ class PropertyForm extends React.Component {
         }
         ;
         return inputComponent
-    }
-
-    getGeneralFields = () => {
-        return INPUT_CONFIGURATION_TYPES.general.fields.map(this._getField)
-    };
-
-    getExtraFields = () => {
-        return INPUT_CONFIGURATION_TYPES[this.state.type].fields.map(this._getField)
     };
 
     render() {
+        const fieldConfigs = INPUT_CONFIGURATION_TYPES.general.fields.concat(INPUT_CONFIGURATION_TYPES[this.state.type].fields);
 
         return (
             <Form layout={"inline"}>
-                {this.getGeneralFields()}
-                {this.getExtraFields()}
+                {fieldConfigs.map((field)=>this._getField(field, this.state.type))}
             </Form>
         );
     }
