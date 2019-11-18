@@ -46,12 +46,12 @@ class PropertyForm extends React.Component {
             config.initialValue = JSON.stringify(this.state[field.name], null, 2)
         }
 
-        if(field.type === "enum"){
-            config.getValueProps = (value)=>{
-                if(field.values.includes(value)){
+        if (field.type === "enum") {
+            config.getValueProps = (value) => {
+                if (field.values.includes(value)) {
                     return {value};
                 }
-                return { value: field.values[0]}
+                this.setPropertyValue({value: field.values[0], key: field.name}); // a little bit dirty trick it could be done in state transitions function.
             }
         }
 
@@ -93,9 +93,9 @@ class PropertyForm extends React.Component {
                 inputComponent = <Select
                     {...commonProps}
                     onChange={(value) => this.setPropertyValue({
-                    key: field.name,
-                    value
-                })}>
+                        key: field.name,
+                        value
+                    })}>
                     {field.values.map(val => (<Select.Option value={val} key={val}>{val}</Select.Option>))}
                 </Select>;
                 break;
@@ -131,7 +131,7 @@ class PropertyForm extends React.Component {
 
         return (
             <Form layout={"inline"}>
-                {fieldConfigs.map((field)=>this._getField(field, this.state.type))}
+                {fieldConfigs.map((field) => this._getField(field, this.state.type))}
             </Form>
         );
     }
