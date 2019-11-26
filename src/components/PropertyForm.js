@@ -126,8 +126,15 @@ class PropertyForm extends React.Component {
         return inputComponent
     };
 
+    _requiredFirst(x, y){
+        return (x.required === y.required)? 0 : x.required? -1 : 1;
+    }
+
     render() {
-        const fieldConfigs = INPUT_CONFIGURATION_TYPES.general.fields.concat(INPUT_CONFIGURATION_TYPES[this.state.type].fields);
+        let fieldConfigs = INPUT_CONFIGURATION_TYPES.general.fields.concat(INPUT_CONFIGURATION_TYPES[this.state.type].fields);
+
+        //sort to have required field first
+        fieldConfigs = fieldConfigs.sort(this._requiredFirst);
 
         return (
             <Form layout={"inline"}>

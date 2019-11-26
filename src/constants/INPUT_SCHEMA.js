@@ -36,6 +36,7 @@ const INPUT_CONFIGURATION_TYPES = {
             {
                 name: "required",
                 type: "boolean",
+                required: true,
             },
         ]
     },
