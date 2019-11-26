@@ -2,6 +2,7 @@ import React from 'react';
 import {Typography, Row, Col, Button} from "antd";
 import copy from 'clipboard-copy';
 import {generate} from 'shortid';
+import fileDownload from "js-file-download"
 
 import Viewer from "./InputSchemaViewer"
 import SchemaImporter from "./SchemaImporter";
@@ -28,6 +29,7 @@ class InputSchemaConfigurator extends React.Component {
         this.handleUpdate = this.handleUpdate.bind(this);
         this.copyToClipboard = this.copyToClipboard.bind(this);
         this.handleImport = this.handleImport.bind(this);
+        this.downloadFile = this.downloadFile.bind(this);
         this.state = {
             config: {
                 title: "Actor awesome input schema",
@@ -47,11 +49,19 @@ class InputSchemaConfigurator extends React.Component {
     }
 
     setStaticValue(event) {
-        event.persist();
-        const {target} = event;
+        let key;
+        let value;
+        if (event.persist) {
+            event.persist();
+            value = event.target.value;
+            key = event.target.name
+        } else {
+            key = event.key;
+            value = event.value
+        }
         this.setState(prevState => {
             const config = Object.assign({}, prevState.config);
-            config[target.name] = target.value;
+            config[key] = value;
             return {config}
 
         });
@@ -225,22 +235,40 @@ class InputSchemaConfigurator extends React.Component {
         }
     };
 
+    downloadFile(){
+        fileDownload(JSON.stringify(this._getJson(), null, 2), 'INPUT_SCHEMA.json');
+
+    }
 
     render() {
         const {config, modal, isEdit} = this.state;
-        const modalProperty = config.properties[modal.propertyIndex] || this._mockEmptyProperty();
+        const modalProperty = config.properties[modal.propertyIndex] || {"uniqueKey": generate(), type: "string"};
 
         return (
             <div>
-                <Row gutter={16} style={{padding: "16px"}}>
-                    <Col span={12} key={"config"}>
+                <Row gutter={16}>
+                    <Col span={11} key={"config"} style={{padding: "16px"}}>
                         <Typography.Title>
                             Configure your input schema
                         </Typography.Title>
+
                         <GeneralForm {...config} setStaticValue={this.setStaticValue}/>
-                        <Typography.Title level={3}>
-                            Properties
-                        </Typography.Title>
+                        <div
+                            style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                            }}>
+                            <Typography.Title level={3}>
+                                Properties
+                            </Typography.Title>
+                            <Button
+                                type={"primary"}
+                                onClick={this._createProperty}
+                                style={{marginTop: "16px"}}
+                            >
+                                Create new property
+                            </Button>
+                        </div>
                         <Row type="flex" gutter={[16, 16]}>
                             {config.properties.map((property, i) => {
                                 const uniqueKey = property.uniqueKey;
@@ -256,21 +284,17 @@ class InputSchemaConfigurator extends React.Component {
                                 )
                             })}
                         </Row>
-                        <Button
-                            type={"primary"}
-                            onClick={this._createProperty}
-                            style={{marginTop: "16px"}}
-                        >
-                            Create new property
-                        </Button>
                     </Col>
-
-                    <Col span={12} key={"viewer"}>
+                    <Col span={11} key={"viewer"} style={{
+                        borderLeft: "2px solid grey",
+                        padding: "16px"
+                    }}>
                         <Typography.Title>
                             Input schema json
                         </Typography.Title>
                         <div style={{display: "flex", justifyContent: "space-between", marginBottom: "16px"}}>
                             <Button onClick={this.copyToClipboard} type={"primary"}> Copy to clipboard</Button>
+                            <Button onClick={this.downloadFile}> Download INPUT_SCHEMA.json</Button>
                             <SchemaImporter handleImport={this.handleImport}/>
                         </div>
                         <div>

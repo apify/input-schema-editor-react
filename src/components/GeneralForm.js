@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Form, Typography} from "antd";
+import {Input, Form, Typography, InputNumber} from "antd";
 
 import '../App.css';
 
@@ -28,13 +28,24 @@ class GeneralForm extends React.Component {
 
     _getField = (field) => {
         const {getFieldDecorator} = this.props.form;
+        const {type, name, required} = field;
 
         return (<Form.Item key={field.name} label={field.name}>
                 {getFieldDecorator(field.name, {
-                    rules: [{required: field.required, message: `Please input your ${field.name}!`}],
+                    rules: [{required, message: `Please input your ${field.name}!`}],
                     initialValue: this.props[field.name]
                 })(
-                    <Input placeholder={field.name} name={field.name} onChange={this.props.setStaticValue}/>
+                    type === "integer"?
+                        <InputNumber
+                            name={name}
+                            onChange={(value)=> this.props.setStaticValue({value, key: name})}
+                        />
+                        :
+                        <Input
+                            placeholder={field.name}
+                            name={field.name}
+                            onChange={this.props.setStaticValue}
+                        />
                 )}
             </Form.Item>
         )
