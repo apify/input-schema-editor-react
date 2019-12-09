@@ -308,8 +308,11 @@ class InputSchemaConfigurator extends React.Component {
                     property={modalProperty}
                     isRequired={config.required.find(r => r === modalProperty.keyName)}
                     closeModal={this.closeModal}
-                    handleSave={isEdit ? this.handleUpdate : this.handleSave}
+                    handleSave={this.handleSave}
                     propertyIndex={modal.propertyIndex}
+                    properties={config.properties}
+                    isEdit={isEdit}
+                    handleUpdate={this.handleUpdate}
                 />
 
             </div>

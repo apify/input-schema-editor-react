@@ -3,73 +3,78 @@ import {Input, Form, Typography, InputNumber} from "antd";
 
 import '../App.css';
 
-const GENERAL_FIELDS = [
-    {
-        name: "title",
-        "required": true,
-    },
-    {
-        name: "description",
-        "required": false,
-    },
-    {
-        name: "schemaVersion",
-        "required": true,
-        type: "integer"
-    },
-    {
-        name: "type",
-        "required": true,
-        type: "string"
-    },
-];
-
 class GeneralForm extends React.Component {
-
-    _getField = (field) => {
-        const {getFieldDecorator} = this.props.form;
-        const {type, name, required} = field;
-
-        return (<Form.Item key={field.name} label={field.name}>
-                {getFieldDecorator(field.name, {
-                    rules: [{required, message: `Please input your ${field.name}!`}],
-                    initialValue: this.props[field.name]
-                })(
-                    type === "integer"?
-                        <InputNumber
-                            name={name}
-                            onChange={(value)=> this.props.setStaticValue({value, key: name})}
-                        />
-                        :
-                        <Input
-                            placeholder={field.name}
-                            name={field.name}
-                            onChange={this.props.setStaticValue}
-                        />
-                )}
-            </Form.Item>
-        )
-    };
 
     render() {
 
         const formItemLayout = {
             labelCol: {
-                xs: { span: 4 },
-                sm: { span: 4 },
+                xs: {span: 4},
+                sm: {span: 4},
             },
             wrapperCol: {
-                xs: { span: 12 },
-                sm: { span: 12 },
+                xs: {span: 12},
+                sm: {span: 12},
             },
         };
+        const {getFieldDecorator} = this.props.form;
+
         return (
             <div>
                 <Typography.Title level={3}>
                     Metadata configuration
                 </Typography.Title>
                 <Form layout={"vertical"} {...formItemLayout}>
-                    {GENERAL_FIELDS.map(this._getField)}
+                    <Form.Item key={"title"} label={"title"}>
+                        {getFieldDecorator("title", {
+                            rules: [{required: true, message: `Please input "title"!`}],
+                            initialValue: this.props.title
+                        })(
+                            <Input
+                                placeholder={"title"}
+                                name={"title"}
+                                onChange={this.props.setStaticValue}
+                            />
+                        )}
+                    </Form.Item>
+
+                    <Form.Item key={"description"} label={"description"}>
+                        {getFieldDecorator("description", {
+                            rules: [{required: false, message: `Please input "description"!`}],
+                            initialValue: this.props.description
+                        })(
+                            <Input.TextArea
+                                placeholder={"description"}
+                                name={"description"}
+                                onChange={this.props.setStaticValue}
+                            />
+                        )}
+                    </Form.Item>
+                    <Form.Item key={"schemaVersion"} label={"schemaVersion"}>
+                        {getFieldDecorator("schemaVersion", {
+                            rules: [{required: false, message: `Please input "schemaVersion"!`}],
+                            initialValue: this.props.schemaVersion
+                        })(
+                            <InputNumber
+                                type={"textarea"}
+                                name={"schemaVersion"}
+                                onChange={(value) => this.props.setStaticValue({value, key: "schemaVersion"})}
+                            />
+                        )}
+                    </Form.Item>
+
+                    <Form.Item key={"type"} label={"type"}>
+                        {getFieldDecorator("type", {
+                            rules: [{required: false, message: `Please input "type"!`}],
+                            initialValue: this.props.type
+                        })(
+                            <Input
+                                placeholder={"type"}
+                                name={"type"}
+                                onChange={this.props.setStaticValue}
+                            />
+                        )}
+                    </Form.Item>
                 </Form>
             </div>
         )
