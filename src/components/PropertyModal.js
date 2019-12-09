@@ -41,9 +41,8 @@ const propertyModal = (props) => {
                             finish();
                         } else {
                             submit = props.handleSave;
-                            // ensure keyName is unique
-                            console.log(values);
 
+                            // ensure keyName is unique
                             if (props.properties.find(prop => prop.keyName === values.keyName)) {
                                 message.error(`Property with keyName "${values.keyName}" already exist`)
 
