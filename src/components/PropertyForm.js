@@ -39,7 +39,12 @@ class PropertyForm extends React.Component {
         }
 
         if (field.type === "boolean") {
-            config.valuePropName = "checked"
+            config.valuePropName = "checked";
+
+            if(field.required){
+               config.rules = [{required: false}];
+
+            }
         }
 
         if (field.type === "object" || field.type === "array") {

@@ -1,4 +1,4 @@
-import {Modal, Button} from "antd";
+import {Modal, Button, message} from "antd";
 import React from "react";
 import PropertyForm from "./PropertyForm";
 
@@ -27,18 +27,38 @@ const propertyModal = (props) => {
                         if (err) {
                             return;
                         }
-                        values.uniqueKey = props.property.uniqueKey;
+                        let submit;
+                        const finish = () => {
+                            values.uniqueKey = props.property.uniqueKey;
 
-                        props.handleSave(values, props.propertyIndex);
-                        form.resetFields();
-                        props.closeModal()
+                            submit(values, props.propertyIndex);
+                            form.resetFields();
+                            props.closeModal()
+                        };
+
+                        if (props.isEdit) {
+                            submit = props.handleUpdate;
+                            finish();
+                        } else {
+                            submit = props.handleSave;
+                            // ensure keyName is unique
+                            console.log(values);
+
+                            if (props.properties.find(prop => prop.keyName === values.keyName)) {
+                                message.error(`Property with keyName "${values.keyName}" already exist`)
+
+                            }else {
+                                finish();
+                            }
+
+                        }
                     });
                 }}>
                     Save
                 </Button>,
             ]}
         >
-            { props.visible && <PropertyForm
+            {props.visible && <PropertyForm
                 property={props.property}
                 isRequired={props.isRequired}
                 wrappedComponentRef={saveFormRef}
