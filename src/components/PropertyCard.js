@@ -20,8 +20,8 @@ const PropertyCard = (props) => {
 
             <div style={{height: "100%", display: "flex", alignItems: "flex-end"}}>
                 <Button onClick={() => props.handleEdit(props.propertyIndex)} type={"primary"}
-                        style={{marginRight: "16px"}}> Edit</Button>
-                <Button onClick={() => props.handleDelete(props.propertyIndex)} type={"danger"}> Delete</Button>
+                        style={{marginRight: "16px"}} icon={"edit"}> Edit</Button>
+                <Button onClick={() => props.handleDelete(props.propertyIndex)} type={"danger"} icon={"delete"}> Delete</Button>
             </div>
         </Card>
     );

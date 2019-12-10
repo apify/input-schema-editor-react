@@ -265,8 +265,9 @@ class InputSchemaConfigurator extends React.Component {
                                 type={"primary"}
                                 onClick={this._createProperty}
                                 style={{marginTop: "16px"}}
+                                icon={"plus-circle"}
                             >
-                                Create new property
+                                Add new property
                             </Button>
                         </div>
                         <Row type="flex" gutter={[16, 16]}>
@@ -293,8 +294,8 @@ class InputSchemaConfigurator extends React.Component {
                             Input schema json
                         </Typography.Title>
                         <div style={{display: "flex", justifyContent: "space-between", marginBottom: "16px"}}>
-                            <Button onClick={this.copyToClipboard} type={"primary"}> Copy to clipboard</Button>
-                            <Button onClick={this.downloadFile}> Download INPUT_SCHEMA.json</Button>
+                            <Button onClick={this.copyToClipboard} type={"primary"} icon={"copy"}> Copy to clipboard</Button>
+                            <Button onClick={this.downloadFile} icon={"cloud-download"}> Download INPUT_SCHEMA.json</Button>
                             <SchemaImporter handleImport={this.handleImport}/>
                         </div>
                         <div>
