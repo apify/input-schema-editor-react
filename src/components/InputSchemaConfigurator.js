@@ -124,8 +124,10 @@ class InputSchemaConfigurator extends React.Component {
         this.setState(prevState => {
             const newModal = Object.assign({}, prevState.modal);
             newModal.visible = false;
+            newModal.propertyIndex = -1;
             return {
-                modal: newModal
+                modal: newModal,
+                isEdit: false,
             }
         })
     }

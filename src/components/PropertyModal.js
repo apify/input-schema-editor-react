@@ -6,7 +6,7 @@ import '../App.css';
 
 const propertyModal = (props) => {
     let formRef;
-    const {title} = props.property;
+    const title = props.property.title || "CREATING NEW PROPERTY";
 
     const saveFormRef = formReference => {
         formRef = formReference;
