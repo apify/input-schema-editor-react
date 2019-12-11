@@ -235,7 +235,7 @@ class InputSchemaConfigurator extends React.Component {
         }
     };
 
-    downloadFile(){
+    downloadFile() {
         fileDownload(JSON.stringify(this._getJson(), null, 2), 'INPUT_SCHEMA.json');
 
     }
@@ -243,6 +243,19 @@ class InputSchemaConfigurator extends React.Component {
     render() {
         const {config, modal, isEdit} = this.state;
         const modalProperty = config.properties[modal.propertyIndex] || {"uniqueKey": generate(), type: "string"};
+
+        const AddNewButton = (props) => (
+            <Button
+                type={"primary"}
+                onClick={this._createProperty}
+                style={{marginBottom: "16px"}}
+                icon={"plus-circle"}
+                block
+                {...props}
+            >
+                ADD NEW PROPERTY
+            </Button>
+        );
 
         return (
             <div>
@@ -263,15 +276,7 @@ class InputSchemaConfigurator extends React.Component {
                                 <Typography.Title level={3}>
                                     Properties
                                 </Typography.Title>
-                                <Button
-                                    type={"primary"}
-                                    onClick={this._createProperty}
-                                    style={{marginBottom: "16px"}}
-                                    icon={"plus-circle"}
-                                    block
-                                >
-                                    ADD NEW PROPERTY
-                                </Button>
+                                <AddNewButton/>
                             </div>
                             <Row type="flex" gutter={[16, 16]}>
                                 {config.properties.map((property, i) => {
@@ -288,6 +293,7 @@ class InputSchemaConfigurator extends React.Component {
                                     )
                                 })}
                             </Row>
+                            {this.state.config.properties.length >= 3 && <AddNewButton style={{marginTop: "16px"}}/>}
                         </div>
 
                     </Col>
@@ -298,7 +304,8 @@ class InputSchemaConfigurator extends React.Component {
                             Input Schema JSON
                         </Typography.Title>
                         <div style={{display: "flex", justifyContent: "space-between", marginBottom: "16px"}}>
-                            <Button onClick={this.copyToClipboard} type={"primary"} icon={"copy"}> COPY TO CLIPBOARD</Button>
+                            <Button onClick={this.copyToClipboard} type={"primary"} icon={"copy"}> COPY TO
+                                CLIPBOARD</Button>
                             <Button onClick={this.downloadFile} icon={"cloud-download"}> DOWNLOAD</Button>
                             <SchemaImporter handleImport={this.handleImport}/>
                         </div>
