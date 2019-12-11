@@ -17,6 +17,7 @@ const propertyModal = (props) => {
             visible={props.visible}
             onOk={props.handleOk}
             onCancel={props.closeModal}
+            style={{ top: 20 }}
             footer={[
                 <Button key="back" onClick={props.closeModal}>
                     Back

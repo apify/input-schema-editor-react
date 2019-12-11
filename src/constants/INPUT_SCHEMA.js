@@ -2,9 +2,8 @@ const INPUT_CONFIGURATION_TYPES = {
     general: {
         fields: [
             {
-                name: "type",
-                values: ["string", "integer", "boolean", "array", "object"],
-                type: "enum",
+                name: "keyName",
+                type: "string",
                 required: true,
             },
             {
@@ -16,11 +15,13 @@ const INPUT_CONFIGURATION_TYPES = {
                 }
             },
             {
-                name: "description",
-                type: "string",
+                name: "type",
+                values: ["string", "integer", "boolean", "array", "object"],
+                type: "enum",
                 required: true,
-            }, {
-                name: "keyName",
+            },
+            {
+                name: "description",
                 type: "string",
                 required: true,
             },
