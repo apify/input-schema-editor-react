@@ -136,13 +136,23 @@ class PropertyForm extends React.Component {
     }
 
     render() {
+        const formItemLayout = {
+          labelCol: {
+            xs: { span: 24 },
+            sm: { span: 8 },
+          },
+          wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 16 },
+          },
+        };
         let fieldConfigs = INPUT_CONFIGURATION_TYPES.general.fields.concat(INPUT_CONFIGURATION_TYPES[this.state.type].fields);
 
         //sort to have required field first
         fieldConfigs = fieldConfigs.sort(this._requiredFirst);
 
         return (
-            <Form layout={"inline"}>
+            <Form {...formItemLayout}>
                 {fieldConfigs.map((field) => this._getField(field, this.state.type))}
             </Form>
         );
