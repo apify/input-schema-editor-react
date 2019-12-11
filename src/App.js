@@ -9,7 +9,7 @@ class App extends React.Component{
       return  <div className="App">
             <Row>
                 <header className="App-header">
-                    Input schema editor (POC)
+                    Input schema editor
                 </header>
             </Row>
           <InputSchemaConfigurator/>

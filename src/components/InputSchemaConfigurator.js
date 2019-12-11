@@ -32,8 +32,8 @@ class InputSchemaConfigurator extends React.Component {
         this.downloadFile = this.downloadFile.bind(this);
         this.state = {
             config: {
-                title: "Actor awesome input schema",
-                description: "this is actor awesome input schema",
+                title: "Actor input schema",
+                description: "This is actor input schema",
                 schemaVersion: 1,
                 type: "object",
                 properties: [this._mockEmptyProperty()],
@@ -247,55 +247,59 @@ class InputSchemaConfigurator extends React.Component {
         return (
             <div>
                 <Row gutter={16}>
-                    <Col span={11} key={"config"} style={{padding: "16px"}}>
-                        <Typography.Title>
+                    <Col span={13} key={"config"} style={{padding: "16px 20px 16px 30px"}} className={"scrollable"}>
+                        <Typography.Title level={2}>
                             Configure your input schema
                         </Typography.Title>
 
                         <GeneralForm {...config} setStaticValue={this.setStaticValue}/>
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                            }}>
-                            <Typography.Title level={3}>
-                                Properties
-                            </Typography.Title>
-                            <Button
-                                type={"primary"}
-                                onClick={this._createProperty}
-                                style={{marginTop: "16px"}}
-                                icon={"plus-circle"}
-                            >
-                                Add new property
-                            </Button>
+                        <div className={"properties"}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: 'column',
+                                    justifyContent: "space-between",
+                                }}>
+                                <Typography.Title level={3}>
+                                    Properties
+                                </Typography.Title>
+                                <Button
+                                    type={"primary"}
+                                    onClick={this._createProperty}
+                                    style={{marginBottom: "16px"}}
+                                    icon={"plus-circle"}
+                                    block
+                                >
+                                    ADD NEW PROPERTY
+                                </Button>
+                            </div>
+                            <Row type="flex" gutter={[16, 16]}>
+                                {config.properties.map((property, i) => {
+                                    const uniqueKey = property.uniqueKey;
+                                    return (<Col span={12} key={property.uniqueKey}>
+                                            <PropertyCard
+                                                property={property}
+                                                propertyIndex={i}
+                                                handleEdit={this.handleEdit}
+                                                handleDelete={this.handleDelete}
+                                                key={uniqueKey}
+                                            />
+                                        </Col>
+                                    )
+                                })}
+                            </Row>
                         </div>
-                        <Row type="flex" gutter={[16, 16]}>
-                            {config.properties.map((property, i) => {
-                                const uniqueKey = property.uniqueKey;
-                                return (<Col span={12} key={property.uniqueKey}>
-                                        <PropertyCard
-                                            property={property}
-                                            propertyIndex={i}
-                                            handleEdit={this.handleEdit}
-                                            handleDelete={this.handleDelete}
-                                            key={uniqueKey}
-                                        />
-                                    </Col>
-                                )
-                            })}
-                        </Row>
+
                     </Col>
-                    <Col span={11} key={"viewer"} style={{
-                        borderLeft: "2px solid grey",
-                        padding: "16px"
-                    }}>
-                        <Typography.Title>
-                            Input schema json
+                    <Col span={11} key={"viewer"}
+                         className={"scrollable json"}
+                    >
+                        <Typography.Title level={2} className={"white"}>
+                            Input Schema JSON
                         </Typography.Title>
                         <div style={{display: "flex", justifyContent: "space-between", marginBottom: "16px"}}>
-                            <Button onClick={this.copyToClipboard} type={"primary"} icon={"copy"}> Copy to clipboard</Button>
-                            <Button onClick={this.downloadFile} icon={"cloud-download"}> Download INPUT_SCHEMA.json</Button>
+                            <Button onClick={this.copyToClipboard} type={"primary"} icon={"copy"}> COPY TO CLIPBOARD</Button>
+                            <Button onClick={this.downloadFile} icon={"cloud-download"}> DOWNLOAD</Button>
                             <SchemaImporter handleImport={this.handleImport}/>
                         </div>
                         <div>

@@ -31,7 +31,7 @@ class SchemaImporter extends React.Component {
     render() {
         return (
             <div>
-                <Button onClick={this.openModal} icon={"cloud-download"}> Import existing input schema</Button>
+                <Button onClick={this.openModal} icon={"cloud-download"}> IMPORT SCHEMA</Button>
 
                 <Modal
                     title={"Import existing input schema"}
