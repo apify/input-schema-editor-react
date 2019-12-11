@@ -61,7 +61,7 @@ class PropertyForm extends React.Component {
         }
 
 
-        return (<Form.Item key={field.name} label={field.name}>
+        return (<Form.Item key={field.name} label={field.name} {...field.props}>
                 {getFieldDecorator(field.name, config)(
                     this._getInputField(field)
                 )}

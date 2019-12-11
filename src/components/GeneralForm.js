@@ -50,31 +50,6 @@ class GeneralForm extends React.Component {
                             />
                         )}
                     </Form.Item>
-                    <Form.Item key={"schemaVersion"} label={"Version"}>
-                        {getFieldDecorator("schemaVersion", {
-                            rules: [{required: false, message: `Please input "schemaVersion"!`}],
-                            initialValue: this.props.schemaVersion
-                        })(
-                            <InputNumber
-                                type={"textarea"}
-                                name={"schemaVersion"}
-                                onChange={(value) => this.props.setStaticValue({value, key: "schemaVersion"})}
-                            />
-                        )}
-                    </Form.Item>
-
-                    <Form.Item key={"type"} label={"Type"}>
-                        {getFieldDecorator("type", {
-                            rules: [{required: false, message: `Please input "type"!`}],
-                            initialValue: this.props.type
-                        })(
-                            <Input
-                                placeholder={"type"}
-                                name={"type"}
-                                onChange={this.props.setStaticValue}
-                            />
-                        )}
-                    </Form.Item>
                 </Form>
             </div>
         )

@@ -11,6 +11,9 @@ const INPUT_CONFIGURATION_TYPES = {
                 name: "title",
                 type: "string",
                 required: true,
+                props:{
+                   className: "title"
+                }
             },
             {
                 name: "description",
