@@ -9,8 +9,8 @@ class GeneralForm extends React.Component {
 
         const formItemLayout = {
             labelCol: {
-                xs: {span: 4},
-                sm: {span: 4},
+                xs: {span: 6},
+                sm: {span: 6},
             },
             wrapperCol: {
                 xs: {span: 12},
@@ -20,12 +20,12 @@ class GeneralForm extends React.Component {
         const {getFieldDecorator} = this.props.form;
 
         return (
-            <div>
+            <div className={"metadata"}>
                 <Typography.Title level={3}>
-                    Metadata configuration
+                    Metadata
                 </Typography.Title>
                 <Form layout={"vertical"} {...formItemLayout}>
-                    <Form.Item key={"title"} label={"title"}>
+                    <Form.Item key={"title"} label={"Title"}>
                         {getFieldDecorator("title", {
                             rules: [{required: true, message: `Please input "title"!`}],
                             initialValue: this.props.title
@@ -38,7 +38,7 @@ class GeneralForm extends React.Component {
                         )}
                     </Form.Item>
 
-                    <Form.Item key={"description"} label={"description"}>
+                    <Form.Item key={"description"} label={"Description"}>
                         {getFieldDecorator("description", {
                             rules: [{required: false, message: `Please input "description"!`}],
                             initialValue: this.props.description
@@ -50,7 +50,7 @@ class GeneralForm extends React.Component {
                             />
                         )}
                     </Form.Item>
-                    <Form.Item key={"schemaVersion"} label={"schemaVersion"}>
+                    <Form.Item key={"schemaVersion"} label={"Version"}>
                         {getFieldDecorator("schemaVersion", {
                             rules: [{required: false, message: `Please input "schemaVersion"!`}],
                             initialValue: this.props.schemaVersion
@@ -63,7 +63,7 @@ class GeneralForm extends React.Component {
                         )}
                     </Form.Item>
 
-                    <Form.Item key={"type"} label={"type"}>
+                    <Form.Item key={"type"} label={"Type"}>
                         {getFieldDecorator("type", {
                             rules: [{required: false, message: `Please input "type"!`}],
                             initialValue: this.props.type

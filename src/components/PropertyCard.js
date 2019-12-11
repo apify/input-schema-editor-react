@@ -1,27 +1,26 @@
 import React from "react";
-import {Button, Descriptions, Card, Typography} from 'antd';
+import {Button, Card} from 'antd';
 import '../App.css';
 
 const PropertyCard = (props) => {
     return (
         <Card
-            style={{height: "100%"}}
-            bodyStyle={{display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%"}}
+            title={props.property.keyName}
+            size={"small"}
+            style={{height: "100%", border: "1px solid #1890ff"}}
         >
-            <Typography.Title level={4}>
-                {props.property.keyName}
-            </Typography.Title>
-            <Descriptions>
+            <div style={{height: "100%", marginBottom: "12px", display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
                 {Object.entries(props.property).map(([key, value]) => {
                     if (key === "title" || key === "type" || key === "editor")
-                        return (<Descriptions.Item label={key} key={key}>{value}</Descriptions.Item>)
+                        return (<div>{key}: {value}</div>)
                 })}
-            </Descriptions>
+            </div>
 
-            <div style={{height: "100%", display: "flex", alignItems: "flex-end"}}>
+
+            <div style={{height: "100%", display: "flex", flexDirection: "row", alignItems: "flex-start"}}>
                 <Button onClick={() => props.handleEdit(props.propertyIndex)} type={"primary"}
-                        style={{marginRight: "16px"}}> Edit</Button>
-                <Button onClick={() => props.handleDelete(props.propertyIndex)} type={"danger"}> Delete</Button>
+                        style={{marginRight: "16px"}} icon={"edit"} block> EDIT</Button>
+                <Button onClick={() => props.handleDelete(props.propertyIndex)} type={"danger"} icon={"delete"} block> DELETE</Button>
             </div>
         </Card>
     );
