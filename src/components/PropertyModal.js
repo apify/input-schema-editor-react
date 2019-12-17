@@ -31,6 +31,7 @@ const propertyModal = (props) => {
                         let submit;
                         const finish = () => {
                             values.uniqueKey = props.property.uniqueKey;
+                            values.editor = formRef.state.editor;
 
                             submit(values, props.propertyIndex);
                             form.resetFields();
