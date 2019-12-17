@@ -41,8 +41,8 @@ class PropertyForm extends React.Component {
         if (field.type === "boolean") {
             config.valuePropName = "checked";
 
-            if(field.required){
-               config.rules = [{required: false}];
+            if (field.required) {
+                config.rules = [{required: false}];
 
             }
         }
@@ -55,6 +55,8 @@ class PropertyForm extends React.Component {
             config.getValueProps = (value) => {
                 if (field.values.includes(value)) {
                     return {value};
+                } else if (field.values.includes(this.state[field.name])) {
+                    return {value: this.state[field.name]}
                 }
                 this.setPropertyValue({value: field.values[0], key: field.name}); // a little bit dirty trick it could be done in state transitions function.
             }
@@ -131,20 +133,20 @@ class PropertyForm extends React.Component {
         return inputComponent
     };
 
-    _requiredFirst(x, y){
-        return (x.required === y.required)? 0 : x.required? -1 : 1;
+    _requiredFirst(x, y) {
+        return (x.required === y.required) ? 0 : x.required ? -1 : 1;
     }
 
     render() {
         const formItemLayout = {
-          labelCol: {
-            xs: { span: 24 },
-            sm: { span: 8 },
-          },
-          wrapperCol: {
-            xs: { span: 24 },
-            sm: { span: 16 },
-          },
+            labelCol: {
+                xs: {span: 24},
+                sm: {span: 8},
+            },
+            wrapperCol: {
+                xs: {span: 24},
+                sm: {span: 16},
+            },
         };
         let fieldConfigs = INPUT_CONFIGURATION_TYPES.general.fields.concat(INPUT_CONFIGURATION_TYPES[this.state.type].fields);
 
