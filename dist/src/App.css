@@ -1,0 +1,60 @@
+@import '~antd/dist/antd.css';
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: white;
+  min-height: 5vh;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1em;
+  color: black;
+  text-transform: uppercase;
+  box-shadow: rgba(70, 76, 79, 0.2) 0px 2px 10px 0px;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+.metadata, .properties {
+  padding: 1em 1.4em;
+  box-shadow: rgba(70, 76, 79, 0.2) 0px 2px 10px 0px;
+  margin-bottom: 2em;
+    background: white;
+}
+
+.ant-typography {
+  text-transform: uppercase;
+}
+
+h2.ant-typography, .ant-typography h2 {
+    font-size: 18px;
+}
+
+h3.ant-typography, .ant-typography h2 {
+    font-size: 14px;
+}
+
+.scrollable {
+    height: calc(100vh - 5vh);
+    overflow-x: scroll;
+}
+
+.json {
+    padding: 16px 24px !important;
+    background-color: black;
+}
+
+.white {
+    color: white !important;
+}
+
+.ant-form-item {
+    margin-bottom: 8px !important;
+}
