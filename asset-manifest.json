@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/input-schema-editor/static/css/main.db2878cf.chunk.css",
-    "main.js": "/input-schema-editor/static/js/main.7bc38d5e.chunk.js",
-    "main.js.map": "/input-schema-editor/static/js/main.7bc38d5e.chunk.js.map",
-    "runtime-main.js": "/input-schema-editor/static/js/runtime-main.4f206701.js",
-    "runtime-main.js.map": "/input-schema-editor/static/js/runtime-main.4f206701.js.map",
-    "static/css/2.7ececfe9.chunk.css": "/input-schema-editor/static/css/2.7ececfe9.chunk.css",
-    "static/js/2.9b2b2596.chunk.js": "/input-schema-editor/static/js/2.9b2b2596.chunk.js",
-    "static/js/2.9b2b2596.chunk.js.map": "/input-schema-editor/static/js/2.9b2b2596.chunk.js.map",
-    "index.html": "/input-schema-editor/index.html",
-    "precache-manifest.334210033083d6ffbd25b156663936ae.js": "/input-schema-editor/precache-manifest.334210033083d6ffbd25b156663936ae.js",
-    "service-worker.js": "/input-schema-editor/service-worker.js",
-    "static/css/2.7ececfe9.chunk.css.map": "/input-schema-editor/static/css/2.7ececfe9.chunk.css.map",
-    "static/css/main.db2878cf.chunk.css.map": "/input-schema-editor/static/css/main.db2878cf.chunk.css.map"
+    "main.css": "/input-schema-editor-react/static/css/main.db2878cf.chunk.css",
+    "main.js": "/input-schema-editor-react/static/js/main.1c1bbbba.chunk.js",
+    "main.js.map": "/input-schema-editor-react/static/js/main.1c1bbbba.chunk.js.map",
+    "runtime-main.js": "/input-schema-editor-react/static/js/runtime-main.85409d1d.js",
+    "runtime-main.js.map": "/input-schema-editor-react/static/js/runtime-main.85409d1d.js.map",
+    "static/css/2.7ececfe9.chunk.css": "/input-schema-editor-react/static/css/2.7ececfe9.chunk.css",
+    "static/js/2.4a61a6f6.chunk.js": "/input-schema-editor-react/static/js/2.4a61a6f6.chunk.js",
+    "static/js/2.4a61a6f6.chunk.js.map": "/input-schema-editor-react/static/js/2.4a61a6f6.chunk.js.map",
+    "index.html": "/input-schema-editor-react/index.html",
+    "precache-manifest.1bae62fc995391e15d870c863d535d58.js": "/input-schema-editor-react/precache-manifest.1bae62fc995391e15d870c863d535d58.js",
+    "service-worker.js": "/input-schema-editor-react/service-worker.js",
+    "static/css/2.7ececfe9.chunk.css.map": "/input-schema-editor-react/static/css/2.7ececfe9.chunk.css.map",
+    "static/css/main.db2878cf.chunk.css.map": "/input-schema-editor-react/static/css/main.db2878cf.chunk.css.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.4f206701.js",
+    "static/js/runtime-main.85409d1d.js",
     "static/css/2.7ececfe9.chunk.css",
-    "static/js/2.9b2b2596.chunk.js",
+    "static/js/2.4a61a6f6.chunk.js",
     "static/css/main.db2878cf.chunk.css",
-    "static/js/main.7bc38d5e.chunk.js"
+    "static/js/main.1c1bbbba.chunk.js"
   ]
 }
