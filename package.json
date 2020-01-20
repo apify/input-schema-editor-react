@@ -38,7 +38,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://petrpatek.github.io/input-schema-editor-react",
+  "homepage": "http://apifytech.github.io/input-schema-editor-react",
   "bit": {
     "env": {
       "compiler": "bit.envs/compilers/react@1.0.4"
