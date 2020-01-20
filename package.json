@@ -1,5 +1,5 @@
 {
-  "name": "input-schema-editor",
+  "name": "input-schema-editor-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -19,7 +19,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "npm run build"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,11 +38,15 @@
       "last 1 safari version"
     ]
   },
+  "homepage": "http://petrpatek.github.io/input-schema-editor-react",
   "bit": {
     "env": {
       "compiler": "bit.envs/compilers/react@1.0.4"
     },
     "componentsDefaultDirectory": "components/{name}",
     "packageManager": "npm"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
   }
 }
