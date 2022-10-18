@@ -47,6 +47,10 @@ const INPUT_CONFIGURATION_TYPES = {
     string: {
         fields: [
             {
+                name: "isSecret",
+                type: "boolean"
+            },
+            {
                 name: "editor",
                 values: ["textfield", "json", "textarea", "javascript", "select", "hidden"],
                 required: true,
