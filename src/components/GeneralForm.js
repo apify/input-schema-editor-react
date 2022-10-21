@@ -1,5 +1,5 @@
 import React from "react";
-import {Input, Form, Typography, InputNumber} from "antd";
+import {Input, Form, Typography} from "antd";
 
 import '../App.css';
 

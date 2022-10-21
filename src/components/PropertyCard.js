@@ -12,7 +12,8 @@ const PropertyCard = (props) => {
             <div style={{height: "100%", marginBottom: "12px", display: "flex", flexDirection: "column", alignItems: "flex-start"}}>
                 {Object.entries(props.property).map(([key, value]) => {
                     if (key === "title" || key === "type" || key === "editor")
-                        return (<div>{key}: {value}</div>)
+                        return (<div key={key}>{key}: {value}</div>)
+                    return null;
                 })}
             </div>
 
