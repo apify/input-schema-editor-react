@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography, Row, Col, Button} from "antd";
+import {Typography, Row, Col, Button, message} from "antd";
 import copy from 'clipboard-copy';
 import {generate} from 'shortid';
 import fileDownload from "js-file-download"
@@ -28,6 +28,11 @@ class InputSchemaConfigurator extends React.Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.copyToClipboard = this.copyToClipboard.bind(this);
+        this.loadSchemaFromCli = this.loadSchemaFromCli.bind(this);
+        this.sendSchemaToCli = this.sendSchemaToCli.bind(this);
+        this.finishEditingInCli = this.finishEditingInCli.bind(this);
+        this.handleWindowClosed = this.handleWindowClosed.bind(this);
+        this.saveAndFinish = this.saveAndFinish.bind(this);
         this.handleImport = this.handleImport.bind(this);
         this.downloadFile = this.downloadFile.bind(this);
         this.state = {
@@ -44,8 +49,86 @@ class InputSchemaConfigurator extends React.Component {
                 propertyIndex: null,
             },
             isEdit: false,
+            localCliPort: null,
+            isEditingFinished: false,
         }
+    }
 
+    async componentDidMount() {
+        let search = window.location.search;
+        let params = new URLSearchParams(search);
+        let localCliPort = params.get('localCliPort');
+        if (localCliPort) {
+            this.setState({
+                localCliPort,
+            });
+            
+            await this.loadSchemaFromCli(localCliPort);
+        
+            window.addEventListener('beforeunload', async () => {
+                await this.handleWindowClosed();
+            });
+        }
+    }
+
+    async loadSchemaFromCli(localCliPort) {
+        if (!localCliPort) {
+            localCliPort = this.state.localCliPort;
+        }
+        try {
+            const response = await fetch(`http://localhost:${localCliPort}/api/input-schema`);
+            const schema = await response.json();
+            this.handleJsonChange(schema);
+            message.success('Schema loaded from Apify CLI');
+        } catch (err) {
+            console.error(err);
+            message.error('Could not load input schema from Apify CLI, check the browser console for errors');
+        }
+    }
+
+    async sendSchemaToCli() {
+        try {
+            const schema = this._getJson();
+            await fetch(`http://localhost:${this.state.localCliPort}/api/input-schema`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(schema),
+            });
+            message.success('Schema saved to Apify CLI');
+        } catch (err) {
+            console.error(err);
+            message.error('Could not save input schema to disk, check the browser console for errors');
+        }
+    }
+    async finishEditingInCli(isWindowBeingClosed = false) {
+        try {
+            await fetch(`http://localhost:${this.state.localCliPort}/api/exit`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ isWindowClosed: isWindowBeingClosed }),
+                keepalive: true,
+            });
+            this.setState({ isEditingFinished: true });
+            message.success('Editing in Apify CLI finished');
+        } catch (err) {
+            console.error(err);
+            message.error('Could not send finish command to Apify CLI, check the browser console for errors');
+        }
+    }
+
+    async handleWindowClosed() {
+        if (!this.state.isEditingFinished) {
+            await this.finishEditingInCli(true);
+        }
+    }
+
+    async saveAndFinish() {
+        await this.sendSchemaToCli();
+        await this.finishEditingInCli();
     }
 
     setStaticValue(event) {
@@ -306,10 +389,14 @@ class InputSchemaConfigurator extends React.Component {
                             Input Schema JSON
                         </Typography.Title>
                         <div style={{display: "flex", justifyContent: "space-between", marginBottom: "16px"}}>
-                            <Button onClick={this.copyToClipboard} type={"primary"} icon={"copy"}> COPY TO
-                                CLIPBOARD</Button>
-                            <Button onClick={this.downloadFile} icon={"cloud-download"}> DOWNLOAD</Button>
                             <SchemaImporter handleImport={this.handleImport}/>
+                            {this.state.localCliPort ? (<>
+                                <Button onClick={this.sendSchemaToCli} type={"primary"} icon={"save"}> SAVE TO DISK</Button>
+                                <Button onClick={this.saveAndFinish} type={"primary"} icon={"save"}> SAVE AND FINISH</Button>
+                            </>) : (<>
+                                <Button onClick={this.copyToClipboard} type={"primary"} icon={"copy"}> COPY TO CLIPBOARD</Button>
+                                <Button onClick={this.downloadFile} icon={"cloud-download"}> DOWNLOAD</Button>
+                            </>)}
                         </div>
                         <div>
                             <Viewer src={this._getJson()} handleChange={this.handleJsonChange}/>
