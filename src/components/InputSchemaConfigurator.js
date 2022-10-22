@@ -180,6 +180,7 @@ class InputSchemaConfigurator extends React.Component {
     handleDelete(propertyIndex) {
         this.setState((prevState) => {
             const config = Object.assign({}, prevState.config);
+            config.required = this._getUpdatedRequired(prevState, config.properties[propertyIndex]);
             config.properties.splice(propertyIndex, 1);
             return {
                 config
@@ -192,7 +193,7 @@ class InputSchemaConfigurator extends React.Component {
         this.setState(prevState => {
             const updatedConfig = Object.assign({}, prevState.config);
 
-            updatedConfig.properties[index] = Object.assign({}, updatedConfig.properties[index], property);
+            updatedConfig.properties[index] = Object.assign({}, property);
             updatedConfig.required = this._getUpdatedRequired(prevState, property);
 
             return {
