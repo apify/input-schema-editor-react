@@ -52,7 +52,7 @@ const INPUT_CONFIGURATION_TYPES = {
             },
             {
                 name: "editor",
-                values: ["textfield", "json", "textarea", "javascript", "select", "hidden"],
+                values: ["textfield", "json", "textarea", "javascript", "select", "datepicker", "hidden"],
                 required: true,
                 type: "enum",
             },
@@ -174,7 +174,7 @@ const INPUT_CONFIGURATION_TYPES = {
         fields:[
             {
                 name: "editor",
-                values: ["json", "requestListSources", "pseudoUrls", "keyValue", "stringList", "hidden"],
+                values: ["json", "requestListSources", "pseudoUrls", "keyValue", "stringList", "globs", "hidden"],
                 type: "enum",
                 required: true,
             },
