@@ -193,7 +193,7 @@ class InputSchemaConfigurator extends React.Component {
         const property = this._ensureValidStructure(prop);
         this.setState((prevState) => {
             const config = Object.assign({}, prevState.config);
-            config.required = this._getUpdatedRequired(prevState, property);
+            config.required = this._getUpdatedRequired(prevState, property, null);
             config.properties = config.properties.concat([property]);
 
             return {
@@ -202,24 +202,38 @@ class InputSchemaConfigurator extends React.Component {
         })
     }
 
-    _getUpdatedRequired(prevState, property) {
+    _getUpdatedRequired(prevState, newPropertyValue, oldPropertyValue) {
         let required = prevState.config.required.concat([]);
-        const index = required.find(key => key === property.keyName);
-        if (property.required && !index) {
-            return required.concat([property.keyName])
 
+        if (newPropertyValue && oldPropertyValue) { // Property changed
+            const oldIndex = required.indexOf(oldPropertyValue.keyName);
+            if (oldIndex !== -1) {
+                if (newPropertyValue.required) {
+                    required[oldIndex] = newPropertyValue.keyName;
+                } else {
+                    required.splice(oldIndex, 1);
+                }
+            } else if (newPropertyValue.required) {
+                required = required.concat([newPropertyValue.keyName]);
+            }
+        } else if (!newPropertyValue && oldPropertyValue) { // Property deleted
+            const oldIndex = required.indexOf(oldPropertyValue.keyName);
+            if (oldIndex !== -1) {
+                required.splice(oldIndex, 1);
+            }
+        } else { // Property added
+            if (newPropertyValue.required) {
+                required = required.concat([newPropertyValue.keyName]);
+            }
         }
 
-        required.splice(index, 1);
         return required
-
-
     }
 
     handleDelete(propertyIndex) {
         this.setState((prevState) => {
             const config = Object.assign({}, prevState.config);
-            config.required = this._getUpdatedRequired(prevState, config.properties[propertyIndex]);
+            config.required = this._getUpdatedRequired(prevState, null, config.properties[propertyIndex]);
             config.properties.splice(propertyIndex, 1);
             return {
                 config
@@ -228,12 +242,13 @@ class InputSchemaConfigurator extends React.Component {
     }
 
     handleUpdate(prop, index) {
-        const property = this._ensureValidStructure(prop);
+        const newProperty = this._ensureValidStructure(prop);
         this.setState(prevState => {
             const updatedConfig = Object.assign({}, prevState.config);
 
-            updatedConfig.properties[index] = Object.assign({}, property);
-            updatedConfig.required = this._getUpdatedRequired(prevState, property);
+            const oldProperty = updatedConfig.properties[index];
+            updatedConfig.properties[index] = Object.assign({}, newProperty);
+            updatedConfig.required = this._getUpdatedRequired(prevState, newProperty, oldProperty);
 
             return {
                 config: updatedConfig,
