@@ -50,73 +50,111 @@ class InputSchemaConfigurator extends React.Component {
             },
             isEdit: false,
             localCliPort: null,
+            localCliToken: null,
             isEditingFinished: false,
         }
     }
 
+    getLocalCliApiUrl(endpoint = '/') {
+        const { localCliApiVersion, localCliPort, localCliToken } = this.state;
+        const apiVersionUrlPart = localCliApiVersion ? `/${localCliApiVersion}` : '';
+        const tokenUrlPart = localCliToken ? `?token=${localCliToken}` : '';
+
+        if (!endpoint.startsWith('/')) endpoint = `/${endpoint}`;
+
+        return `http://localhost:${localCliPort}/api${apiVersionUrlPart}${endpoint}${tokenUrlPart}`;
+    }
+
     async componentDidMount() {
-        let search = window.location.search;
-        let params = new URLSearchParams(search);
-        let localCliPort = params.get('localCliPort');
+        const parsedUrl = new URL(window.location.href);
+        const localCliPort = parsedUrl.searchParams.get('localCliPort');
+        const localCliToken = parsedUrl.searchParams.get('localCliToken');
+        const localCliApiVersion = parsedUrl.searchParams.get('localCliApiVersion');
+
         if (localCliPort) {
             this.setState({
                 localCliPort,
-            });
-            
-            await this.loadSchemaFromCli(localCliPort);
-        
+                localCliToken,
+                localCliApiVersion,
+            }, async () => await this.loadSchemaFromCli());
+
+            parsedUrl.searchParams.delete('localCliPort');
+            parsedUrl.searchParams.delete('localCliToken');
+            parsedUrl.searchParams.delete('localCliApiVersion');
+            window.history.replaceState(null, '', parsedUrl.href)
+
             window.addEventListener('beforeunload', async () => {
                 await this.handleWindowClosed();
             });
         }
     }
 
-    async loadSchemaFromCli(localCliPort) {
-        if (!localCliPort) {
-            localCliPort = this.state.localCliPort;
-        }
+    async loadSchemaFromCli() {
         try {
-            const response = await fetch(`http://localhost:${localCliPort}/api/input-schema`);
+            const apiUrl = this.getLocalCliApiUrl('/input-schema');
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
             const schema = await response.json();
             this.handleJsonChange(schema);
+
             message.success('Schema loaded from Apify CLI');
+
+            return true;
         } catch (err) {
             console.error(err);
             message.error('Could not load input schema from Apify CLI, check the browser console for errors');
+            return false;
         }
     }
 
     async sendSchemaToCli() {
         try {
             const schema = this._getJson();
-            await fetch(`http://localhost:${this.state.localCliPort}/api/input-schema`, {
+
+            const apiUrl = this.getLocalCliApiUrl('/input-schema');
+            const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(schema),
             });
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
             message.success('Schema saved to Apify CLI');
+
+            return true;
         } catch (err) {
             console.error(err);
             message.error('Could not save input schema to disk, check the browser console for errors');
+            return false;
         }
     }
+
     async finishEditingInCli(isWindowBeingClosed = false) {
         try {
-            await fetch(`http://localhost:${this.state.localCliPort}/api/exit`, {
+            const apiUrl = this.getLocalCliApiUrl('/exit');
+            const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ isWindowClosed: isWindowBeingClosed }),
                 keepalive: true,
             });
+            if (!response.ok) {
+                throw new Error(await response.text());
+            }
+
             this.setState({ isEditingFinished: true });
             message.success('Editing in Apify CLI finished');
+
+            return true;
         } catch (err) {
             console.error(err);
             message.error('Could not send finish command to Apify CLI, check the browser console for errors');
+            return false;
         }
     }
 
@@ -127,8 +165,9 @@ class InputSchemaConfigurator extends React.Component {
     }
 
     async saveAndFinish() {
-        await this.sendSchemaToCli();
-        await this.finishEditingInCli();
+        if (await this.sendSchemaToCli()) {
+            await this.finishEditingInCli();
+        }
     }
 
     setStaticValue(event) {
